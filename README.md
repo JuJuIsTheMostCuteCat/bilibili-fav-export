@@ -1,4 +1,6 @@
-# 个人收藏夹导出 Chrome Extension
+# bilibili-fav-export
+
+一键导出 B站/小红书个人收藏夹到 Excel 的 Chrome 插件，方便知识管理与备份。
 
 本插件是本地使用的 Manifest V3 扩展，用于在用户主动点击后导出本人已登录账号中的 B 站收藏夹，以及小红书当前页面已加载收藏内容。
 
