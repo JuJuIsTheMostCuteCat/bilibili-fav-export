@@ -1,0 +1,172 @@
+:root {
+  color-scheme: light;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  width: 360px;
+  margin: 0;
+  background: #f6f7fb;
+  color: #202124;
+}
+
+.app {
+  padding: 14px;
+}
+
+header {
+  margin-bottom: 12px;
+}
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+p {
+  margin: 0;
+}
+
+header p,
+.hint,
+.status,
+.message {
+  color: #5f6368;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.card {
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+}
+
+label {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+label:first-child {
+  margin-top: 0;
+}
+
+select,
+input[type="date"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+button {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: #1677ff;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+button.secondary {
+  background: #eef2ff;
+  color: #1d4ed8;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.row button {
+  flex: 1;
+}
+
+.folder-list {
+  max-height: 145px;
+  margin-top: 8px;
+  overflow: auto;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+}
+
+.folder-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #eef0f4;
+  font-size: 13px;
+}
+
+.folder-item:last-child {
+  border-bottom: none;
+}
+
+.folder-item input {
+  flex: 0 0 auto;
+}
+
+.folder-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder-count {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.date-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+progress {
+  width: 100%;
+  height: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  min-height: 18px;
+  margin-top: 8px;
+}
+
+.message.error {
+  color: #b42318;
+}
+
+.message.success {
+  color: #047857;
+}
+
+.hidden {
+  display: none;
+}

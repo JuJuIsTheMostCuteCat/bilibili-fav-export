@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "个人收藏夹导出",
+  "description": "本地导出本人已登录账号中的 B 站和小红书收藏内容，便于知识管理。",
+  "version": "0.1.0",
+  "action": {
+    "default_title": "收藏夹导出",
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "32": "assets/icon-32.png",
+      "48": "assets/icon-48.png",
+      "128": "assets/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "downloads",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*.bilibili.com/*",
+    "https://*.xiaohongshu.com/*"
+  ],
+  "icons": {
+    "16": "assets/icon-16.png",
+    "32": "assets/icon-32.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  }
+}
