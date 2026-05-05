@@ -5,6 +5,7 @@ importScripts(
   "../utils/normalize.js",
   "../export/excel.js",
   "../platforms/bilibili.js",
+  "../platforms/youtube.js",
   "../platforms/xiaohongshu.js"
 );
 
@@ -22,8 +23,14 @@ async function handleMessage(message) {
   switch (message?.type) {
     case "GET_BILI_STATUS":
       return getBiliStatus();
+    case "GET_BILI_UP_STATUS":
+      return getBiliUpStatus(message.options);
     case "START_BILI_EXPORT":
       return startBiliExport(message.options);
+    case "START_BILI_UP_EXPORT":
+      return startBiliUpExport(message.options);
+    case "START_YOUTUBE_EXPORT":
+      return startYoutubeExport(message.options);
     case "START_XHS_EXPORT":
       return startXhsExport(message.options);
     case "CANCEL_EXPORT":
@@ -39,6 +46,15 @@ async function getBiliStatus() {
   return {
     login,
     folders,
+    errors: logger.entries
+  };
+}
+
+async function getBiliUpStatus(options) {
+  const logger = FavExportLogger.createLogger();
+  const up = await FavExportBilibili.getUpArchiveOverview(options, logger);
+  return {
+    up,
     errors: logger.entries
   };
 }
@@ -86,6 +102,49 @@ async function startBiliExport(options) {
   }
 }
 
+async function startBiliUpExport(options) {
+  const job = createJob("bilibili-up");
+  const logger = FavExportLogger.createLogger();
+
+  try {
+    if (!options?.up?.mid) {
+      throw new Error("请输入 UP 主 UID 或空间链接");
+    }
+
+    sendProgress(job.id, "bilibili", {
+      processed: 0,
+      total: Number(options.up.total || 0),
+      message: "开始导出 B 站 UP 主投稿"
+    });
+
+    const result = await FavExportBilibili.exportUpArchives(
+      options,
+      (progress) => sendProgress(job.id, "bilibili", progress),
+      () => job.cancelled,
+      logger
+    );
+
+    const filename = await downloadWorkbook({
+      items: result.items,
+      invalidItems: result.invalidItems,
+      errors: logger.entries,
+      summary: result.summary
+    });
+
+    runningJobs.delete(job.id);
+    return {
+      jobId: job.id,
+      filename,
+      itemCount: result.items.length,
+      invalidCount: result.invalidItems.length
+    };
+  } catch (error) {
+    logger.error("B 站 UP 主投稿导出失败", String(error));
+    runningJobs.delete(job.id);
+    throw error;
+  }
+}
+
 async function startXhsExport(options) {
   const job = createJob("xiaohongshu");
   const logger = FavExportLogger.createLogger();
@@ -118,6 +177,43 @@ async function startXhsExport(options) {
     };
   } catch (error) {
     logger.error("小红书导出失败", String(error));
+    runningJobs.delete(job.id);
+    throw error;
+  }
+}
+
+async function startYoutubeExport(options) {
+  const job = createJob("youtube");
+  const logger = FavExportLogger.createLogger();
+
+  try {
+    if (!options?.tabId) {
+      throw new Error("请先打开 YouTube 页面");
+    }
+
+    sendProgress(job.id, "youtube", {
+      processed: 0,
+      total: 0,
+      message: options.includeCaptions === false ? "正在解析 YouTube 当前页面" : "正在解析 YouTube 当前页面和字幕"
+    });
+
+    const result = await FavExportYoutube.collectFromCurrentTab(options.tabId, options, logger);
+    const filename = await downloadWorkbook({
+      items: result.items,
+      invalidItems: result.invalidItems,
+      errors: logger.entries,
+      summary: result.summary
+    });
+
+    runningJobs.delete(job.id);
+    return {
+      jobId: job.id,
+      filename,
+      itemCount: result.items.length,
+      invalidCount: 0
+    };
+  } catch (error) {
+    logger.error("YouTube 导出失败", String(error));
     runningJobs.delete(job.id);
     throw error;
   }

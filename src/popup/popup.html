@@ -8,12 +8,12 @@
   </head>
   <body>
     <main class="app">
-      <header>
+      <header class="hero">
         <h1>个人收藏夹导出</h1>
-        <p>仅本地处理本人已登录账号中的收藏数据。</p>
+        <p>本地导出收藏和 UP 视频信息。</p>
       </header>
 
-      <section class="card">
+      <section class="card control-card">
         <label for="platform">平台</label>
         <select id="platform">
           <option value="bilibili">Bilibili</option>
@@ -23,38 +23,80 @@
       </section>
 
       <section id="bili-panel" class="card">
-        <div class="row">
-          <button id="load-bili" type="button">读取 B 站收藏夹</button>
-          <button id="select-all" type="button" class="secondary">全选</button>
-        </div>
-        <div id="bili-login" class="hint">请先打开 B 站并登录。</div>
-        <div id="folder-list" class="folder-list"></div>
+        <label for="bili-source">读取类型</label>
+        <select id="bili-source">
+          <option value="favorites">读取收藏夹</option>
+          <option value="up">读取 UP 主</option>
+        </select>
 
-        <label for="time-filter">收藏时间</label>
+        <div id="bili-favorites-options">
+          <div class="row">
+            <button id="load-bili" type="button">读取 B 站收藏夹</button>
+            <button id="select-all" type="button" class="secondary">全选</button>
+          </div>
+          <div id="bili-login" class="hint">请先打开 B 站并登录。</div>
+          <div id="folder-list" class="folder-list"></div>
+
+          <label for="invalid-mode">失效内容</label>
+          <select id="invalid-mode">
+            <option value="separate">单独写入失效内容 Sheet</option>
+            <option value="filter">过滤失效内容</option>
+            <option value="all">导出全部内容</option>
+          </select>
+        </div>
+
+        <div id="bili-up-options" class="hidden">
+          <label for="up-input">UP 主 UID 或空间链接</label>
+          <input id="up-input" type="text" placeholder="例如 123456 或 https://space.bilibili.com/123456" />
+          <button id="load-up" type="button" class="full-width">读取 UP 主投稿信息</button>
+          <div id="up-status" class="hint">请输入 UP 主 UID 或空间链接。</div>
+
+          <label for="up-order">排序方式</label>
+          <select id="up-order">
+            <option value="pubdate">最新发布</option>
+            <option value="click">最多播放</option>
+            <option value="stow">最多收藏</option>
+          </select>
+
+          <label for="up-keyword">关键词</label>
+          <input id="up-keyword" type="text" placeholder="可选：只搜索该 UP 投稿标题/内容" />
+
+          <label for="up-tid">投稿分区</label>
+          <select id="up-tid">
+            <option value="0">全部分区</option>
+          </select>
+        </div>
+
+        <label for="time-filter"><span id="time-filter-label">收藏时间</span></label>
         <select id="time-filter">
           <option value="all">全部</option>
           <option value="last7">最近 7 天</option>
           <option value="last30">最近 30 天</option>
+          <option value="last180">半年内</option>
+          <option value="last365">一年内</option>
           <option value="custom">自定义</option>
         </select>
         <div id="custom-time" class="date-grid hidden">
           <input id="start-date" type="date" aria-label="开始日期" />
           <input id="end-date" type="date" aria-label="结束日期" />
         </div>
+      </section>
 
-        <label for="invalid-mode">失效内容</label>
-        <select id="invalid-mode">
-          <option value="separate">单独写入失效内容 Sheet</option>
-          <option value="filter">过滤失效内容</option>
-          <option value="all">导出全部内容</option>
-        </select>
+      <section id="youtube-panel" class="card hidden">
+        <h2>YouTube 当前页面</h2>
+        <p class="hint">打开 YouTube 收藏、播放列表或频道视频页，滚动加载需要导出的内容后再导出。</p>
+        <label class="inline-option">
+          <input id="youtube-captions" type="checkbox" checked />
+          <span>尝试导出字幕文本</span>
+        </label>
       </section>
 
       <section id="xhs-panel" class="card hidden">
+        <h2>小红书当前页面</h2>
         <p class="hint">请先打开小红书收藏页，滚动加载想导出的内容，再点击导出。首版只解析当前页面已加载卡片。</p>
       </section>
 
-      <section class="card">
+      <section class="card action-card">
         <div class="progress-header">
           <span id="progress-text">等待操作</span>
           <span id="progress-count"></span>

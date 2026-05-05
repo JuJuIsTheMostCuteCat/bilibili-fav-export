@@ -1,26 +1,43 @@
 :root {
   color-scheme: light;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bg: #f3f6fb;
+  --card: rgb(255 255 255 / 88%);
+  --border: #e6eaf2;
+  --text: #172033;
+  --muted: #667085;
+  --primary: #2563eb;
+  --primary-soft: #eff6ff;
+  --success: #047857;
+  --danger: #b42318;
 }
 
 body {
-  width: 360px;
+  width: 380px;
   margin: 0;
-  background: #f6f7fb;
-  color: #202124;
+  background:
+    radial-gradient(circle at top left, #dbeafe 0, transparent 32%),
+    linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+  color: var(--text);
 }
 
 .app {
-  padding: 14px;
+  padding: 16px;
 }
 
-header {
-  margin-bottom: 12px;
+.hero {
+  padding: 4px 2px 14px;
 }
 
 h1 {
-  margin: 0 0 4px;
-  font-size: 18px;
+  margin: 0 0 6px;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 14px;
 }
 
 p {
@@ -31,18 +48,19 @@ header p,
 .hint,
 .status,
 .message {
-  color: #5f6368;
+  color: var(--muted);
   font-size: 12px;
   line-height: 1.5;
 }
 
 .card {
-  padding: 12px;
-  margin-bottom: 10px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+  padding: 14px;
+  margin-bottom: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgb(15 23 42 / 7%);
+  backdrop-filter: blur(8px);
 }
 
 label {
@@ -57,23 +75,41 @@ label:first-child {
 }
 
 select,
-input[type="date"] {
+input[type="date"],
+input[type="text"] {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  padding: 9px 10px;
+  border: 1px solid #d6dce8;
+  border-radius: 10px;
   background: #ffffff;
+  color: var(--text);
+  outline: none;
+}
+
+select:focus,
+input:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 12%);
 }
 
 button {
-  padding: 8px 10px;
+  padding: 9px 12px;
   border: none;
-  border-radius: 8px;
-  background: #1677ff;
+  border-radius: 10px;
+  background: var(--primary);
   color: #ffffff;
   font-weight: 600;
   cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    opacity 120ms ease;
+}
+
+button:not(:disabled):hover {
+  box-shadow: 0 8px 18px rgb(37 99 235 / 18%);
+  transform: translateY(-1px);
 }
 
 button:disabled {
@@ -82,7 +118,7 @@ button:disabled {
 }
 
 button.secondary {
-  background: #eef2ff;
+  background: var(--primary-soft);
   color: #1d4ed8;
 }
 
@@ -96,12 +132,18 @@ button.secondary {
   flex: 1;
 }
 
+button.full-width {
+  width: 100%;
+  margin-top: 8px;
+}
+
 .folder-list {
   max-height: 145px;
   margin-top: 8px;
   overflow: auto;
-  border: 1px dashed #d1d5db;
-  border-radius: 8px;
+  border: 1px solid #e5eaf3;
+  border-radius: 12px;
+  background: #fbfdff;
 }
 
 .folder-item {
@@ -109,7 +151,7 @@ button.secondary {
   gap: 8px;
   align-items: center;
   padding: 8px;
-  border-bottom: 1px solid #eef0f4;
+  border-bottom: 1px solid #eef2f7;
   font-size: 13px;
 }
 
@@ -130,8 +172,22 @@ button.secondary {
 }
 
 .folder-count {
-  color: #6b7280;
+  color: var(--muted);
   font-size: 12px;
+}
+
+.inline-option {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 12px 0 0;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.inline-option input {
+  width: auto;
 }
 
 .date-grid {
@@ -146,12 +202,27 @@ button.secondary {
   justify-content: space-between;
   margin-bottom: 8px;
   font-size: 12px;
+  color: var(--muted);
 }
 
 progress {
   width: 100%;
-  height: 10px;
+  height: 6px;
   margin-bottom: 10px;
+  overflow: hidden;
+  border: none;
+  border-radius: 999px;
+  background: #e8edf5;
+}
+
+progress::-webkit-progress-bar {
+  border-radius: 999px;
+  background: #e8edf5;
+}
+
+progress::-webkit-progress-value {
+  border-radius: 999px;
+  background: linear-gradient(90deg, #60a5fa, var(--primary));
 }
 
 .message {
@@ -160,11 +231,11 @@ progress {
 }
 
 .message.error {
-  color: #b42318;
+  color: var(--danger);
 }
 
 .message.success {
-  color: #047857;
+  color: var(--success);
 }
 
 .hidden {

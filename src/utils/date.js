@@ -51,6 +51,14 @@
       return { start: new Date(now.getTime() - 30 * 86400000), end: now };
     }
 
+    if (value === "last180") {
+      return { start: new Date(now.getTime() - 180 * 86400000), end: now };
+    }
+
+    if (value === "last365") {
+      return { start: new Date(now.getTime() - 365 * 86400000), end: now };
+    }
+
     if (value === "custom") {
       return {
         start: filter.startDate ? new Date(`${filter.startDate}T00:00:00`) : null,

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "个人收藏夹导出",
-  "description": "本地导出本人已登录账号中的 B 站和小红书收藏内容，便于知识管理。",
+  "name": "内容收藏导出",
+  "description": "本地导出 B 站和小红书内容到 Excel，便于知识管理。",
   "version": "0.1.0",
   "action": {
     "default_title": "收藏夹导出",
